@@ -3,6 +3,7 @@ from typing import List
 from cost import cost
 from hypothesis import hypothesis
 from params import *
+import matplotlib.pyplot as plt
 
 
 def cal_gradient(index: int, x: List[float], y: List[float], z: List[float]) -> float:
@@ -27,9 +28,18 @@ def cal_gradient(index: int, x: List[float], y: List[float], z: List[float]) -> 
 
 def train():
     # training all the parameters thetas
+    costs = []
     for iter_time in range(ITERATIONS):
         print('iteration ', iter_time, end="\n")
         print(THETA)
-        print('cost is', cost(x, y, z))
+        c = cost(x, y, z)
+        costs.append(c)
+        print('cost is', c)
         for i in range(PARAM_COUNT):
             THETA[i] -= ALPHA * cal_gradient(i, x, y, z)
+    plt.plot(range(ITERATIONS), costs)
+    plt.xlabel('iterations')
+    plt.ylabel('cost')
+    plt.title('cost change while iteration')
+    plt.grid(True)
+    plt.show()
